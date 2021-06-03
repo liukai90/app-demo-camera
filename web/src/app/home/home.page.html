@@ -1,0 +1,36 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title class="ion-text-center">
+      主页
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-toolbar>
+    <ion-searchbar placeholder="搜索设备" [(ngModel)]="url"></ion-searchbar>
+    <ion-buttons slot="end">
+      <ion-button (click)="searchCamera()">
+        搜索
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+  <ion-list>
+    <ion-list-header>
+      设备列表
+    </ion-list-header>
+    <ion-item *ngFor="let item of cameraMap | keyvalue" button detail (click)="getCameraDetailsPage(item.value)">
+      <ion-avatar slot="start">
+        <img src="./assets/img/camera.png" />
+      </ion-avatar>
+      <ion-label>
+        <h2>{{item.value.alias}}</h2>
+        <p>{{item.key}}</p>
+      </ion-label>
+      <ion-note slot="end" [color]="item.value.status ? 'success' : 'medium'">
+        {{item.value.status ? '在线' : '离线'}}
+      </ion-note>
+    </ion-item>
+
+  </ion-list>
+</ion-content>

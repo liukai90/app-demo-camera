@@ -1,0 +1,131 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button text=""></ion-back-button>
+    </ion-buttons>
+    <ion-title>在线监控</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div id="cw" class="canvas-wrapper" (click)="sideStretch($event)">
+    <div class="sector float-top" *ngIf="!show && enableMove && !autoMode && connected && buttons.stretch.start">
+      <div class="box s1" (touchstart)="moveCamera($event, {x: -1, y: 0})" (touchend)="stopCameraMove($event)">
+        <ion-icon class="s1 icon" name="caret-back-sharp"></ion-icon>
+      </div>
+      <div class="box s2" (touchstart)="moveCamera($event, {x: 0, y: 1})" (touchend)="stopCameraMove($event)">
+        <ion-icon class="icon s1" name="caret-back-sharp"></ion-icon>
+      </div>
+      <div class="box s3" (touchstart)="moveCamera($event, {x: 1, y: 0})" (touchend)="stopCameraMove($event)">
+        <ion-icon class="icon s1" name="caret-back-sharp"></ion-icon>
+      </div>
+      <div class="box s4" (touchstart)="moveCamera($event, {x: 0, y: -1})" (touchend)="stopCameraMove($event)">
+        <ion-icon class="icon s1" name="caret-back-sharp"></ion-icon>
+      </div>
+      <div id="home" class="home center" (click)="cameraHome()">
+        <ion-icon style="color: #616161;" slot="icon-only" name="ellipse-sharp"></ion-icon>
+      </div>
+    </div>
+    <div id="parentSide" *ngIf="!show">
+      <div id="side">
+        <div class="item center">
+          <ion-button class="rotate" fill="clear" [color]="buttons.palyer.color" (click)="onPlayer($event)">
+            <ion-icon slot="icon-only" [name]="buttons.palyer.icon"></ion-icon>
+          </ion-button>
+        </div>
+        <div class="item center">
+          <ion-button class="rotate" fill="clear" [color]="buttons.stretch.color" (click)="updateStretchStatus($event)"
+            [disabled]="!enableMove || autoMode || !connected">
+            <ion-icon [src]="buttons.stretch.icon" slot="icon-only"></ion-icon>
+          </ion-button>
+        </div>
+        <div class="item center">
+          <ion-button class="rotate" fill="clear" [disabled]="!enableMove || !connected"
+            [color]="buttons.tracking.color" (click)="updateCameraMode($event)">
+            <ion-icon slot="icon-only" [name]="buttons.tracking.icon"></ion-icon>
+          </ion-button>
+        </div>
+        <div class="item center">
+          <ion-button class="rotate" fill="clear" [color]="buttons.ai.color" (click)="aiControl($event)">
+            <ion-icon [src]="buttons.ai.icon" slot="icon-only"></ion-icon>
+          </ion-button>
+        </div>
+        <div class="item center">
+          <ion-button class="rotate" fill="clear" [color]="buttons.audio.color" (click)="onAudioChange($event)">
+            <ion-icon [name]="buttons.audio.icon" slot="icon-only"></ion-icon>
+          </ion-button>
+        </div>
+        <div class="item center">
+          <ion-button class="rotate" fill="clear" [color]="buttons.screen.color" (click)="screenControl($event)">
+            <ion-icon [src]="buttons.screen.icon" slot="icon-only"></ion-icon>
+          </ion-button>
+        </div>
+      </div>
+    </div>
+    <canvas id="video" class="canvas" width="360px" height="202px">
+    </canvas>
+    <canvas id="layout" class="canvas" width="360px" height="202px">
+    </canvas>
+  </div>
+  <ion-grid *ngIf="show">
+    <ion-row>
+      <ion-col class="center">
+        <ion-button fill="clear" [color]="buttons.palyer.color" (click)="onPlayer()">
+          <ion-icon slot="icon-only" [name]="buttons.palyer.icon"></ion-icon>
+        </ion-button>
+      </ion-col>
+      <ion-col class="center">
+        <ion-button fill="clear" [color]="buttons.audio.color" (click)="onAudioChange($event)">
+          <ion-icon [name]="buttons.audio.icon" slot="icon-only"></ion-icon>
+        </ion-button>
+      </ion-col>
+      <ion-col class="center">
+        <ion-button fill="clear" [color]="buttons.screen.color" (click)="screenControl()">
+          <ion-icon [src]="buttons.screen.icon" slot="icon-only"></ion-icon>
+        </ion-button>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col class="center">
+        <ion-button fill="clear" [disabled]="!enableMove || !connected" [color]="buttons.tracking.color"
+          (click)="updateCameraMode()">
+          <ion-icon slot="icon-only" [name]="buttons.tracking.icon"></ion-icon>
+        </ion-button>
+      </ion-col>
+      <ion-col class="center">
+        <ion-button fill="clear" [color]="buttons.ai.color" (click)="aiControl()">
+          <ion-icon [src]="buttons.ai.icon" slot="icon-only"></ion-icon>
+        </ion-button>
+      </ion-col>
+      <ion-col class="center">
+        <ion-button fill="clear" [color]="buttons.stretch.color" [disabled]="!enableMove || autoMode || !connected" (click)="stretch()">
+          <ion-icon [src]="buttons.stretch.icon" slot="icon-only"></ion-icon>
+        </ion-button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+  <div id="parent" *ngIf="show && enableMove && !autoMode && connected">
+    
+    <div id="child">
+      <div class="sector">
+        <div class="box s1" (touchstart)="moveCamera($event, {x: 0, y: 1})" (touchend)="stopCameraMove($event)">
+          
+          <ion-icon class="s1 icon" name="caret-back-sharp"></ion-icon>
+        </div>
+        <div class="box s2" (touchstart)="moveCamera($event, {x: 1, y: 0})" (touchend)="stopCameraMove($event)" >
+          <ion-icon class="icon s1" name="caret-back-sharp"></ion-icon>
+        </div>
+        <div class="box s3" (touchstart)="moveCamera($event, {x: 0, y: -1})" (touchend)="stopCameraMove($event)" >
+          <ion-icon class="icon s1" name="caret-back-sharp"></ion-icon>
+        </div>
+        <div class="box s4" (touchstart)="moveCamera($event, {x: -1, y: 0})" (touchend)="stopCameraMove($event)" >
+          <ion-icon class="icon s1" name="caret-back-sharp"></ion-icon>
+        </div>
+        <div id="home" class="home center" (click)="cameraHome()">
+          <ion-icon style="color: #616161;" slot="icon-only" name="ellipse-sharp"></ion-icon>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</ion-content>
