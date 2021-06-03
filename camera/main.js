@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019 EdgerOS Team.
+ * Copyright (c) 2021 EdgerOS Team.
  * All rights reserved.
  *
  * Detailed license information can be found in the LICENSE file.
@@ -11,7 +11,6 @@
  */
 
 var WebApp = require('webapp');
-var iosched = require('iosched');
 var util = require('./util');
 
 /* 
@@ -308,7 +307,5 @@ app.put('/api/close', (req, res) => {
  */
 app.start();
 
-/*
- * Event loop
- */
-iosched.forever();
+/* Event loop. */
+require('iosched').forever();

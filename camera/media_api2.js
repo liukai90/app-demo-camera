@@ -1,3 +1,15 @@
+/*
+ * Copyright (c) 2021 EdgerOS Team.
+ * All rights reserved.
+ *
+ * Detailed license information can be found in the LICENSE file.
+ *
+ * File: media_api2.js media api module.
+ *
+ * Author: Cheng.yongbin
+ *
+ */
+
 var URL = require('url');
 var WebMedia = require('webmedia');
 var onvif = require('@edgeros/jsre-onvif');

@@ -1,7 +1,7 @@
 {
-    "name": "camera",
-    "version": "0.0.5",
-    "description": "智能摄像头",
+    "name": "com.acoinfo.camera-demo",
+    "version": "0.0.2",
+    "description": "camera demo.",
     "main": "main.js",
     "scripts": {
         "build": "eos build"
@@ -15,7 +15,7 @@
     "devDependencies": {
         "eslint": "^7.23.0",
         "@edgeros/jsre-types": "^0.1.1",
-        "@edgeros/eslint-plugin-jsre": "^0.0.1"
+        "@edgeros/eslint-plugin-jsre": "^0.0.3"
     },
     "author": "edgeros@acoinfo.com"
 }
